@@ -16,15 +16,49 @@ module.exports = {
 
   async execute(sock, msg, args, extra) {
     try {
+      const botNumber = sock.user.id;
+      const contactName = '⎯͢^᪲𝐒ʜꫝʜɪɴ 𝐑ꫝɴꫝ𐙚';
+
+      const vcard = `BEGIN:VCARD
+VERSION:3.0
+FN:${contactName}
+TEL;type=CELL;type=VOICE;waid=${botNumber.split(':')[0]}:+${botNumber.split(':')[0]}
+END:VCARD`;
+
+      const quotedContact = {
+        key: {
+          remoteJid: extra.from,
+          fromMe: true,
+          id: `CONTACT_${Date.now()}`,
+          participant: sock.user.id
+        },
+        message: {
+          contactMessage: {
+            displayName: contactName,
+            vcard
+          }
+        },
+        messageTimestamp: Math.floor(Date.now() / 1000)
+      };
+
+      const replyWithCard = async (text) => {
+        return sock.sendMessage(
+          extra.from,
+          { text },
+          { quoted: quotedContact }
+        );
+      };
+
       if (!args[0]) {
         const settings = database.getGroupSettings(extra.from);
-        const status = settings.antibadword ? 'ON' : 'OFF';
-        const action = settings.antibadwordAction || 'delete';
-        return extra.reply(
-          `🚫 *Antibadword Status*\n\n` +
-          `Status: *${status}*\n` +
-          `Action: *${action}*\n\n` +
-          `Usage:\n` +
+        const status = settings.antibadword ? '𝐎ɴ' : '𝐎ғғ';
+        const action = settings.antibadwordAction || '𝐝ᴇʟᴇᴛᴇ';
+
+        return replyWithCard(
+          `🚫 *𝐀ɴᴛɪʙꫝᴅᴡᴏʀᴅ 𝐒ᴛꫝᴛᴜs*\n\n` +
+          `𝐒ᴛꫝᴛᴜs: *${status}*\n` +
+          `𝐀ᴄᴛɪᴏɴ: *${action}*\n\n` +
+          `𝐔sꫝɢᴇ:\n` +
           `  .antibadword on\n` +
           `  .antibadword off\n` +
           `  .antibadword set delete | kick | warn\n` +
@@ -36,44 +70,59 @@ module.exports = {
 
       if (opt === 'on') {
         if (database.getGroupSettings(extra.from).antibadword) {
-          return extra.reply('*Antibadword is already on*');
+          return replyWithCard('𝐀ɴᴛɪʙꫝᴅᴡᴏʀᴅ ɪs ꫝʟʀᴇꫝᴅʏ 𝐎ɴ');
         }
+
         database.updateGroupSettings(extra.from, { antibadword: true });
-        return extra.reply('*Antibadword has been turned ON*');
+        return replyWithCard('𝐀ɴᴛɪʙꫝᴅᴡᴏʀᴅ ʜꫝs ʙᴇᴇɴ ᴛᴜʀɴᴇᴅ 𝐎ɴ');
       }
 
       if (opt === 'off') {
         database.updateGroupSettings(extra.from, { antibadword: false });
-        return extra.reply('*Antibadword has been turned OFF*');
+        return replyWithCard('𝐀ɴᴛɪʙꫝᴅᴡᴏʀᴅ ʜꫝs ʙᴇᴇɴ ᴛᴜʀɴᴇᴅ 𝐎ғғ');
       }
 
       if (opt === 'set') {
         if (args.length < 2) {
-          return extra.reply('*Please specify an action: .antibadword set delete | kick | warn*');
+          return replyWithCard(
+            '𝐏ʟᴇꫝsᴇ sᴘᴇᴄɪғʏ ꫝɴ ꫝᴄᴛɪᴏɴ: .antibadword set delete | kick | warn'
+          );
         }
 
         const setAction = args[1].toLowerCase();
+
         if (!['delete', 'kick', 'warn'].includes(setAction)) {
-          return extra.reply('*Invalid action. Choose delete, kick, or warn.*');
+          return replyWithCard(
+            '𝐈ɴᴠꫝʟɪᴅ ꫝᴄᴛɪᴏɴ. 𝐂ʜᴏᴏsᴇ delete, kick, ᴏʀ warn.'
+          );
         }
 
         database.updateGroupSettings(extra.from, {
           antibadwordAction: setAction,
           antibadword: true,
         });
-        return extra.reply(`*Antibadword action set to ${setAction}*`);
+
+        return replyWithCard(
+          `𝐀ɴᴛɪʙꫝᴅᴡᴏʀᴅ ꫝᴄᴛɪᴏɴ sᴇᴛ ᴛᴏ ${setAction}`
+        );
       }
 
       if (opt === 'get') {
         const settings = database.getGroupSettings(extra.from);
-        const status = settings.antibadword ? 'ON' : 'OFF';
+        const status = settings.antibadword ? '𝐎ɴ' : '𝐎ғғ';
         const action = settings.antibadwordAction || 'delete';
-        return extra.reply(`*Antibadword Configuration:*\nStatus: ${status}\nAction: ${action}`);
+
+        return replyWithCard(
+          `𝐀ɴᴛɪʙꫝᴅᴡᴏʀᴅ 𝐂ᴏɴғɪɢᴜʀꫝᴛɪᴏɴ:\n` +
+          `𝐒ᴛꫝᴛᴜs: ${status}\n` +
+          `𝐀ᴄᴛɪᴏɴ: ${action}`
+        );
       }
 
-      return extra.reply('*Use .antibadword for usage.*');
+      return replyWithCard('𝐔sᴇ .antibadword ғᴏʀ ᴜsꫝɢᴇ.');
+
     } catch (error) {
-      await extra.reply(`❌ Error: ${error.message}`);
+      await extra.reply(`❌ 𝐄ʀʀᴏʀ: ${error.message}`);
     }
   },
 };
