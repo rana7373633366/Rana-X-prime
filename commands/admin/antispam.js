@@ -1,3 +1,4 @@
+
 /**
  * Antispam Command — delete message bursts, then warn or kick
  */
@@ -23,57 +24,133 @@ module.exports = {
       if (!args[0]) {
         const status = settings.antiSpam ? 'ON' : 'OFF';
         const action = settings.antiSpamAction || 'warn';
+
         return extra.reply(
-          `🚫 *Antispam Status*\n\n` +
-            `Status: *${status}*\n` +
-            `Action: *${action}*\n` +
-            `Limit: *5 messages in 8 seconds*, or the same text *3 times*\n\n` +
-            `Admins, owner, and this bot are exempt.\n\n` +
-            `Usage:\n` +
-            `  \`${p}antispam on\`\n` +
-            `  \`${p}antispam off\`\n` +
-            `  \`${p}antispam set warn | kick\`\n` +
-            `  \`${p}antispam get\``
+          `╭━━━〔 🚫 〕━━━╮\n` +
+          `   *⎯͢^᪲ꫝɴᴛɪ Sᴘꫝᴍ𐙚*\n` +
+          `╰━━━━━━━━━━━━╯\n\n` +
+          `⎯͢❖ *Sᴛꫝᴛᴜs:* ${status === 'ON' ? '🟢 ON' : '🔴 OFF'}\n` +
+          `⎯͢❖ *ꫝᴄᴛɪᴏɴ:* ${action.toUpperCase()}\n` +
+          `⎯͢❖ *Lɪᴍɪᴛ:* 5 messages / 8 seconds\n` +
+          `⎯͢❖ *Sꫝᴍᴇ Tᴇxᴛ:* 3 times\n\n` +
+          `╭━━〔 ⚙️ 〕━━╮\n` +
+          `  *𝐂ᴏᴍᴍꫝɴᴅs*\n` +
+          `╰━━━━━━━━━━╯\n\n` +
+          `⎯͢➤ ${p}antispam on\n` +
+          `⎯͢➤ ${p}antispam off\n` +
+          `⎯͢➤ ${p}antispam set warn\n` +
+          `⎯͢➤ ${p}antispam set kick\n` +
+          `⎯͢➤ ${p}antispam get\n\n` +
+          `╭━━〔 🛡️ 〕━━╮\n` +
+          `Admins, Owner & Bot are exempt.\n` +
+          `╰━━━━━━━━━━╯\n\n` +
+          `   ⎯͢^᪲𝐒ʜꫝʜɪɴ 𝐑ꫝɴꫝ𐙚`
         );
       }
 
       const opt = args[0].toLowerCase();
 
       if (opt === 'on') {
-        if (settings.antiSpam) return extra.reply('*Antispam is already on*');
+        if (settings.antiSpam) {
+          return extra.reply(
+            `╭━━〔 ⚠️ 〕━━╮\n` +
+            ` *ꫝɴᴛɪsᴘꫝᴍ ꫝʟʀᴇꫝᴅʏ Oɴ!*\n` +
+            `╰━━━━━━━━━━╯`
+          );
+        }
+
         database.updateGroupSettings(extra.from, { antiSpam: true });
-        return extra.reply('*Antispam has been turned ON*');
+
+        return extra.reply(
+          `╭━━〔 ✅ 〕━━╮\n` +
+          ` *ꫝɴᴛɪsᴘꫝᴍ Eɴꫝʙʟᴇᴅ!*\n` +
+          `╰━━━━━━━━━━╯\n\n` +
+          `⎯͢❖ Spam protection is now ꫝctive.\n\n` +
+          `⎯͢^᪲𝐒ʜꫝʜɪɴ 𝐑ꫝɴꫝ𐙚`
+        );
       }
 
       if (opt === 'off') {
         database.updateGroupSettings(extra.from, { antiSpam: false });
-        return extra.reply('*Antispam has been turned OFF*');
+
+        return extra.reply(
+          `╭━━〔 🔴 〕━━╮\n` +
+          ` *ꫝɴᴛɪsᴘꫝᴍ DISꫝBLED!*\n` +
+          `╰━━━━━━━━━━╯\n\n` +
+          `⎯͢❖ Spam protection is now inactive.\n\n` +
+          `⎯͢^᪲𝐒ʜꫝʜɪɴ 𝐑ꫝɴꫝ𐙚`
+        );
       }
 
       if (opt === 'set') {
         if (args.length < 2) {
-          return extra.reply(`*Please specify an action: \`${p}antispam set warn | kick\`*`);
+          return extra.reply(
+            `╭━━〔 ⚠️ 〕━━╮\n` +
+            ` *ꫝᴄᴛɪᴏɴ Rᴇǫᴜɪʀᴇᴅ!*\n` +
+            `╰━━━━━━━━━━╯\n\n` +
+            `⎯͢➤ ${p}antispam set warn\n` +
+            `⎯͢➤ ${p}antispam set kick\n\n` +
+            `⎯͢^᪲𝐒ʜꫝʜɪɴ 𝐑ꫝɴꫝ𐙚`
+          );
         }
+
         const setAction = args[1].toLowerCase();
+
         if (!['warn', 'kick'].includes(setAction)) {
-          return extra.reply('*Invalid action. Choose warn or kick.*');
+          return extra.reply(
+            `╭━━〔 ❌ 〕━━╮\n` +
+            ` *INVꫝLID ꫝCTION!*\n` +
+            `╰━━━━━━━━━━╯\n\n` +
+            `⎯͢❖ Choose: *WARN* or *KICK*\n\n` +
+            `⎯͢^᪲𝐒ʜꫝʜɪɴ 𝐑ꫝɴꫝ𐙚`
+          );
         }
+
         database.updateGroupSettings(extra.from, {
           antiSpamAction: setAction,
           antiSpam: true,
         });
-        return extra.reply(`*Antispam action set to ${setAction}*`);
+
+        return extra.reply(
+          `╭━━〔 ✅ 〕━━╮\n` +
+          ` *ꫝCTION UPDꫝTED!*\n` +
+          `╰━━━━━━━━━━╯\n\n` +
+          `⎯͢❖ *NEW ꫝCTION:* ${setAction.toUpperCase()}\n` +
+          `⎯͢❖ *STꫝTUS:* ON\n\n` +
+          `⎯͢^᪲𝐒ʜꫝʜɪɴ 𝐑ꫝɴꫝ𐙚`
+        );
       }
 
       if (opt === 'get') {
         const status = settings.antiSpam ? 'ON' : 'OFF';
         const action = settings.antiSpamAction || 'warn';
-        return extra.reply(`*Antispam Configuration:*\nStatus: ${status}\nAction: ${action}`);
+
+        return extra.reply(
+          `╭━━〔 ⚙️ 〕━━╮\n` +
+          `   *ꫝɴᴛɪsᴘꫝᴍ CONFIG*\n` +
+          `╰━━━━━━━━━━╯\n\n` +
+          `⎯͢❖ *STꫝTUS:* ${status}\n` +
+          `⎯͢❖ *ꫝCTION:* ${action.toUpperCase()}\n\n` +
+          `⎯͢^᪲𝐒ʜꫝʜɪɴ 𝐑ꫝɴꫝ𐙚`
+        );
       }
 
-      return extra.reply(`*Use \`${p}antispam\` for usage.*`);
+      return extra.reply(
+        `╭━━〔 ⚠️ 〕━━╮\n` +
+        ` *INVꫝLID COMMꫝND!*\n` +
+        `╰━━━━━━━━━━╯\n\n` +
+        `⎯͢❖ Type *${p}antispam* for usage.\n\n` +
+        `⎯͢^᪲𝐒ʜꫝʜɪɴ 𝐑ꫝɴꫝ𐙚`
+      );
+
     } catch (error) {
-      await extra.reply(`❌ Error: ${error.message}`);
+      await extra.reply(
+        `╭━━〔 ❌ 〕━━╮\n` +
+        ` *SOMETHING WENT WRONG!*\n` +
+        `╰━━━━━━━━━━╯\n\n` +
+        `⎯͢❖ *ERROR:* ${error.message}\n\n` +
+        `⎯͢^᪲𝐒ʜꫝʜɪɴ 𝐑ꫝɴꫝ𐙚`
+      );
     }
   },
 };
