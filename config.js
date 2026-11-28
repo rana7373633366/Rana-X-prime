@@ -8,7 +8,8 @@ module.exports = {
     ownerName: ['Knight Bot Mini'], // Owner names corresponding to ownerNumber array
     
     // Bot Configuration
-    botName: 'Knight Bot Mini',
+    botName: '𝐗-𝐒ʜꫝʜɪɴ-𝐁ᴏᴛ🫶❤️‍🩹
+',
     prefix: '.',
     sessionName: 'session',
     sessionID: process.env.SESSION_ID || '', //Paste your session here 
