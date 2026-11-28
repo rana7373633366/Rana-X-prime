@@ -60,14 +60,19 @@ module.exports = {
       };
 
       // ==============================
-      // REPLY WITH CONTACT CARD
+      // STYLED REPLY
       // ==============================
 
       const replyWithCard = async (text) => {
+        const message =
+          `⎯꯭𝆭̽🌀᭡᪳𓆪𝐀ɴᴛɪɢʀᴏᴜᴘᴍᴇɴᴛɪᴏɴ𝆺𝅥𝆬⎯꯭𝆭̽🤍\n\n` +
+          `${text}\n\n` +
+          `⎯꯭𝆭̽🫀᭡᪳𝐗-𝐒ʜꫝʜɪɴ 𝐑ꫝɴꫝ 𝆺𝅥𝆬⎯꯭𝆭̽💗`;
+
         return await sock.sendMessage(
           extra.from,
           {
-            text: text,
+            text: message,
             contextInfo: {
               stanzaId: `AGM-${Date.now()}`,
               participant: botJid,
@@ -92,24 +97,19 @@ module.exports = {
         const action = settings.antigroupmentionAction || 'delete';
 
         return replyWithCard(
-          `╭━━━〔 🛡️ 𝐀ɴᴛɪɢʀᴏᴜᴘᴍᴇɴᴛɪᴏɴ 〕━━━╮\n` +
-          `┃\n` +
-          `┃ 🌐 𝐒ᴛꫝᴛᴜs : *${status}*\n` +
-          `┃ ⚡ 𝐀ᴄᴛɪᴏɴ : *${action.toUpperCase()}*\n` +
-          `┃\n` +
-          `╰━━━━━━━━━━━━━━━━━━╯\n\n` +
-          `╭━━〔 🛡️ 𝐏ʀᴏᴛᴇᴄᴛɪᴏɴ 〕━━╮\n` +
-          `┃ 🚫 Group Mention Protection\n` +
-          `┃ 💎 Keep your group protected.\n` +
-          `╰━━━━━━━━━━━━━━━━╯\n\n` +
-          `╭━━〔 ⚙️ 𝐂ᴏᴍᴍꫝɴᴅ 𝐌ᴇɴᴜ 〕━━╮\n` +
-          `┃ 🟢 .antigroupmention on\n` +
-          `┃ 🔴 .antigroupmention off\n` +
-          `┃ ⚡ .antigroupmention set delete\n` +
-          `┃ ⚡ .antigroupmention set kick\n` +
-          `┃ 📋 .antigroupmention get\n` +
-          `╰━━━━━━━━━━━━━━━━╯\n\n` +
-          `🌸 𝐏ᴏᴡᴇʀᴇᴅ 𝐁ʏ 𝐒ʜꫝʜɪɴ 𝐑ꫝɴꫝ`
+          `⎯꯭𝆭̽🌐᭡᪳𓆪𝐒ᴛꫝᴛᴜs : *${status}*𝆺𝅥𝆬⎯꯭𝆭̽🤍\n` +
+          `⎯꯭𝆭̽⚡᭡᪳𓆪𝐀ᴄᴛɪᴏɴ : *${action.toUpperCase()}*𝆺𝅥𝆬⎯꯭𝆭̽🤍\n\n` +
+
+          `⎯꯭𝆭̽🛡️᭡᪳𓆪𝐏ʀᴏᴛᴇᴄᴛɪᴏɴ𝆺𝅥𝆬⎯꯭𝆭̽🤍\n` +
+          `⎯꯭𝆭̽🚫᭡᪳𓆪Group Mention Protection𝆺𝅥𝆬⎯꯭𝆭̽\n` +
+          `⎯꯭𝆭̽💎᭡᪳𓆪Keep your group protected.𝆺𝅥𝆬⎯꯭𝆭̽🤍\n\n` +
+
+          `⎯꯭𝆭̽⚙️᭡᪳𓆪𝐂ᴏᴍᴍꫝɴᴅ 𝐌ᴇɴᴜ𝆺𝅥𝆬⎯꯭𝆭̽🤍\n` +
+          `⎯꯭𝆭̽🟢᭡᪳𓆪.antigroupmention on𝆺𝅥𝆬\n` +
+          `⎯꯭𝆭̽🔴᭡᪳𓆪.antigroupmention off𝆺𝅥𝆬\n` +
+          `⎯꯭𝆭̽⚡᭡᪳𓆪.antigroupmention set delete𝆺𝅥𝆬\n` +
+          `⎯꯭𝆭̽⚡᭡᪳𓆪.antigroupmention set kick𝆺𝅥𝆬\n` +
+          `⎯꯭𝆭̽📋᭡᪳𓆪.antigroupmention get𝆺𝅥𝆬⎯꯭𝆭̽🤍`
         );
       }
 
@@ -129,12 +129,8 @@ module.exports = {
             .antigroupmention
         ) {
           return replyWithCard(
-            `╭━━━〔 🛡️ 𝐀ɴᴛɪɢʀᴏᴜᴘᴍᴇɴᴛɪᴏɴ 〕━━━╮\n` +
-            `┃\n` +
-            `┃ 💚 𝐏ʀᴏᴛᴇᴄᴛɪᴏɴ ɪs 𝐀ʟʀᴇᴀᴅʏ 𝐎𝐍!\n` +
-            `┃ ✨ Everything is working.\n` +
-            `┃\n` +
-            `╰━━━━━━━━━━━━━━━━━━╯`
+            `⎯꯭𝆭̽💚᭡᪳𓆪𝐏ʀᴏᴛᴇᴄᴛɪᴏɴ ɪs 𝐀ʟʀᴇᴀᴅʏ 𝐎𝐍!𝆺𝅥𝆬⎯꯭𝆭̽🤍\n` +
+            `⎯꯭𝆭̽✨᭡᪳𓆪Everything is working.𝆺𝅥𝆬⎯꯭𝆭̽`
           );
         }
 
@@ -146,14 +142,10 @@ module.exports = {
         );
 
         return replyWithCard(
-          `╭━━━〔 🛡️ 𝐀ɴᴛɪɢʀᴏᴜᴘᴍᴇɴᴛɪᴏɴ 〕━━━╮\n` +
-          `┃\n` +
-          `┃ 🎉 𝐏ʀᴏᴛᴇᴄᴛɪᴏɴ 𝐄ɴꫝʙʟᴇᴅ!\n` +
-          `┃ 💚 𝐒ᴛꫝᴛᴜs : *𝐎𝐍*\n` +
-          `┃ 🛡️ Group protection activated.\n` +
-          `┃\n` +
-          `╰━━━━━━━━━━━━━━━━━━╯\n\n` +
-          `🌷 𝐘ᴏᴜʀ ɢʀᴏᴜᴘ ɪs ɴᴏᴡ 𝐏ʀᴏᴛᴇᴄᴛᴇᴅ! 💗`
+          `⎯꯭𝆭̽🎉᭡᪳𓆪 𝐏ʀᴏᴛᴇᴄᴛɪᴏɴ 𝐄ɴꫝʙʟᴇᴅ!𝆺𝅥𝆬⎯꯭𝆭̽\n` +
+          `⎯꯭𝆭̽💚᭡᪳𓆪𝐒ᴛꫝᴛᴜs : *𝐎𝐍*𝆺𝅥𝆬⎯꯭𝆭̽🤍\n` +
+          `⎯꯭𝆭̽🛡️᭡᪳𓆪Group protection activated.𝆺𝅥𝆬⎯꯭𝆭̽\n\n` +
+          `⎯꯭𝆭̽🌷᭡᪳𓆪𝐘ᴏᴜʀ ɢʀᴏᴜᴘ ɪs ɴᴏᴡ 𝐏ʀᴏᴛᴇᴄᴛᴇᴅ! 💗𝆺𝅥𝆬⎯꯭𝆭̽`
         );
       }
 
@@ -170,14 +162,10 @@ module.exports = {
         );
 
         return replyWithCard(
-          `╭━━━〔 🛡️ 𝐀ɴᴛɪɢʀᴏᴜᴘᴍᴇɴᴛɪᴏɴ 〕━━━╮\n` +
-          `┃\n` +
-          `┃ ⚠️ 𝐏ʀᴏᴛᴇᴄᴛɪᴏɴ 𝐃ɪsꫝʙʟᴇᴅ!\n` +
-          `┃ ❤️‍🩹 𝐒ᴛꫝᴛᴜs : *𝐎𝐅𝐅*\n` +
-          `┃ 🔓 Protection is now disabled.\n` +
-          `┃\n` +
-          `╰━━━━━━━━━━━━━━━━━━╯\n\n` +
-          `🌙 𝐏ʀᴏᴛᴇᴄᴛɪᴏɴ ɪs ɴᴏᴡ 𝐎𝐅𝐅!`
+          `⎯꯭𝆭̽⚠️᭡᪳𓆪𝐏ʀᴏᴛᴇᴄᴛɪᴏɴ 𝐃ɪsꫝʙʟᴇᴅ!𝆺𝅥𝆬⎯꯭𝆭̽\n` +
+          `⎯꯭𝆭̽❤️‍🩹᭡᪳𓆪𝐒ᴛꫝᴛᴜs : *𝐎𝐅𝐅*𝆺𝅥𝆬⎯꯭𝆭̽🤍\n` +
+          `⎯꯭𝆭̽🔓᭡᪳𓆪Protection is now disabled.𝆺𝅥𝆬⎯꯭𝆭̽\n\n` +
+          `⎯꯭𝆭̽🌙᭡᪳𓆪𝐏ʀᴏᴛᴇᴄᴛɪᴏɴ ɪs ɴᴏᴡ 𝐎𝐅𝐅!𝆺𝅥𝆬⎯꯭𝆭̽`
         );
       }
 
@@ -188,13 +176,9 @@ module.exports = {
       if (opt === 'set') {
         if (args.length < 2) {
           return replyWithCard(
-            `╭━━〔 ⚙️ 𝐒ᴇᴛ 𝐀ᴄᴛɪᴏɴ 〕━━╮\n` +
-            `┃\n` +
-            `┃ 📝 𝐔sꫝɢᴇ:\n` +
-            `┃ 🗑️ .antigroupmention set delete\n` +
-            `┃ 🚫 .antigroupmention set kick\n` +
-            `┃\n` +
-            `╰━━━━━━━━━━━━━━━━╯`
+            `⎯꯭𝆭̽📝᭡᪳𓆪𝐔sꫝɢᴇ :𝆺𝅥𝆬⎯꯭𝆭̽🤍\n` +
+            `⎯꯭𝆭̽🗑️᭡᪳𓆪.antigroupmention set delete𝆺𝅥𝆬\n` +
+            `⎯꯭𝆭̽🚫᭡᪳𓆪.antigroupmention set kick𝆺𝅥𝆬⎯꯭𝆭̽`
           );
         }
 
@@ -202,12 +186,8 @@ module.exports = {
 
         if (!['delete', 'kick'].includes(setAction)) {
           return replyWithCard(
-            `╭━━━〔 ❌ 𝐈ɴᴠꫝʟɪᴅ 〕━━━╮\n` +
-            `┃\n` +
-            `┃ ⚠️ 𝐈ɴᴠꫝʟɪᴅ 𝐀ᴄᴛɪᴏɴ!\n` +
-            `┃ 💡 Choose *delete* or *kick*.\n` +
-            `┃\n` +
-            `╰━━━━━━━━━━━━━━━━╯`
+            `⎯꯭𝆭̽❌᭡᪳𓆪𝐈ɴᴠꫝʟɪᴅ 𝐀ᴄᴛɪᴏɴ!𝆺𝅥𝆬⎯꯭𝆭̽\n` +
+            `⎯꯭𝆭̽💡᭡᪳𓆪Choose *delete* or *kick*.𝆺𝅥𝆬⎯꯭𝆭̽🤍`
           );
         }
 
@@ -220,14 +200,10 @@ module.exports = {
         );
 
         return replyWithCard(
-          `╭━━━〔 ⚙️ 𝐀ɴᴛɪɢʀᴏᴜᴘᴍᴇɴᴛɪᴏɴ 〕━━━╮\n` +
-          `┃\n` +
-          `┃ ✅ 𝐀ᴄᴛɪᴏɴ 𝐔ᴘᴅꫝᴛᴇᴅ!\n` +
-          `┃ 🎯 𝐍ᴇᴡ 𝐀ᴄᴛɪᴏɴ : *${setAction.toUpperCase()}*\n` +
-          `┃ 💚 𝐒ᴛꫝᴛᴜs : *𝐎𝐍*\n` +
-          `┃\n` +
-          `╰━━━━━━━━━━━━━━━━━━╯\n\n` +
-          `✨ 𝐒ᴇᴛᴛɪɴɢs 𝐒ꫝᴠᴇᴅ 𝐒ᴜᴄᴄᴇssғᴜʟʟʏ! 💗`
+          `⎯꯭𝆭̽✅᭡᪳𓆪𝐀ᴄᴛɪᴏɴ 𝐔ᴘᴅꫝᴛᴇᴅ!𝆺𝅥𝆬⎯꯭𝆭̽\n` +
+          `⎯꯭𝆭̽🎯᭡᪳𓆪𝐍ᴇᴡ 𝐀ᴄᴛɪᴏɴ : *${setAction.toUpperCase()}*𝆺𝅥𝆬⎯꯭𝆭̽🤍\n` +
+          `⎯꯭𝆭̽💚᭡᪳𓆪𝐒ᴛꫝᴛᴜs : *𝐎𝐍*𝆺𝅥𝆬⎯꯭𝆭̽\n\n` +
+          `⎯꯭𝆭̽✨᭡᪳𓆪𝐒ᴇᴛᴛɪɴɢs 𝐒ꫝᴠᴇᴅ 𝐒ᴜᴄᴄᴇssғᴜʟʟʏ! 💗𝆺𝅥𝆬⎯꯭𝆭̽`
         );
       }
 
@@ -245,14 +221,10 @@ module.exports = {
         const action = settings.antigroupmentionAction || 'delete';
 
         return replyWithCard(
-          `╭━━━〔 📋 𝐀ɴᴛɪɢʀᴏᴜᴘᴍᴇɴᴛɪᴏɴ 〕━━━╮\n` +
-          `┃\n` +
-          `┃ 🌐 𝐒ᴛꫝᴛᴜs : *${status}*\n` +
-          `┃ ⚡ 𝐀ᴄᴛɪᴏɴ : *${action.toUpperCase()}*\n` +
-          `┃ 🛡️ 𝐏ʀᴏᴛᴇᴄᴛɪᴏɴ : Active\n` +
-          `┃\n` +
-          `╰━━━━━━━━━━━━━━━━━━╯\n\n` +
-          `💎 𝐀ɴᴛɪɢʀᴏᴜᴘᴍᴇɴᴛɪᴏɴ 𝐂ᴏɴғɪɢᴜʀꫝᴛɪᴏɴ`
+          `⎯꯭𝆭̽🌐᭡᪳𓆪𝐒ᴛꫝᴛᴜs : *${status}*𝆺𝅥𝆬⎯꯭𝆭̽🤍\n` +
+          `⎯꯭𝆭̽⚡᭡᪳𓆪𝐀ᴄᴛɪᴏɴ : *${action.toUpperCase()}*𝆺𝅥𝆬⎯꯭𝆭̽🤍\n` +
+          `⎯꯭𝆭̽🛡️᭡᪳𓆪𝐏ʀᴏᴛᴇᴄᴛɪᴏɴ : Active𝆺𝅥𝆬⎯꯭𝆭̽\n\n` +
+          `⎯꯭𝆭̽💎᭡᪳𓆪𝐀ɴᴛɪɢʀᴏᴜᴘᴍᴇɴᴛɪᴏɴ 𝐂ᴏɴғɪɢᴜʀꫝᴛɪᴏɴ𝆺𝅥𝆬⎯꯭𝆭̽`
         );
       }
 
@@ -261,12 +233,9 @@ module.exports = {
       // ==============================
 
       return replyWithCard(
-        `╭━━━〔 ⚠️ 𝐈ɴᴠꫝʟɪᴅ 〕━━━╮\n` +
-        `┃\n` +
-        `┃ 📌 𝐔sꫝɢᴇ: .antigroupmention\n` +
-        `┃ 💡 Type the correct command.\n` +
-        `┃\n` +
-        `╰━━━━━━━━━━━━━━━━╯`
+        `⎯꯭𝆭̽⚠️᭡᪳𓆪𝐈ɴᴠꫝʟɪᴅ 𝐎ᴘᴛɪᴏɴ!𝆺𝅥𝆬⎯꯭𝆭̽\n` +
+        `⎯꯭𝆭̽📌᭡᪳𓆪𝐔sꫝɢᴇ : .antigroupmention𝆺𝅥𝆬⎯꯭𝆭̽\n` +
+        `⎯꯭𝆭̽💡᭡᪳𓆪Type the correct command.𝆺𝅥𝆬⎯꯭𝆭̽🤍`
       );
 
     } catch (error) {
@@ -276,11 +245,9 @@ module.exports = {
       );
 
       await extra.reply(
-        `╭━━━〔 ❌ 𝐄ʀʀᴏʀ 〕━━━╮\n` +
-        `┃\n` +
-        `┃ ⚠️ ${error.message}\n` +
-        `┃\n` +
-        `╰━━━━━━━━━━━━━━━━╯`
+        `⎯꯭𝆭̽🌀᭡᪳𓆪𝐀ɴᴛɪɢʀᴏᴜᴘᴍᴇɴᴛɪᴏɴ𝆺𝅥𝆬⎯꯭𝆭̽🤍\n\n` +
+        `⎯꯭𝆭̽❌᭡᪳𓆪𝐄ʀʀᴏʀ : ${error.message}𝆺𝅥𝆬⎯꯭𝆭̽\n\n` +
+        `⎯꯭𝆭̽🫀᭡᪳𝐗-𝐒ʜꫝʜɪɴ 𝐑ꫝɴꫝ 𝆺𝅥𝆬⎯꯭𝆭̽💗`
       );
     }
   }
