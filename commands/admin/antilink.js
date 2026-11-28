@@ -1,3 +1,4 @@
+
 /**
  * Antilink Command - Toggle antilink protection with delete/kick options
  */
@@ -16,7 +17,10 @@ module.exports = {
 
     async execute(sock, msg, args, extra) {
         try {
-            // Bot Contact Card
+            // ==============================
+            // BOT CONTACT CARD
+            // ==============================
+
             const botNumber = sock.user.id.split(':')[0].split('@')[0];
             const botJid = `${botNumber}@s.whatsapp.net`;
 
@@ -46,10 +50,18 @@ module.exports = {
                 }
             };
 
-            // Reply With Contact Card
+            // ==============================
+            // STYLED REPLY WITH CONTACT CARD
+            // ==============================
+
             const replyWithCard = async (text) => {
+                const message =
+                    `⎯꯭𝆭̽🌀᭡᪳𓆪𝐀ɴᴛɪʟɪɴᴋ𝆺𝅥𝆬⎯꯭𝆭̽🤍\n\n` +
+                    `${text}\n\n` +
+                    `⎯꯭𝆭̽🫀᭡᪳𝐗-𝐒ʜꫝʜɪɴ 𝐑ꫝɴꫝ 𝆺𝅥𝆬⎯꯭𝆭̽💗`;
+
                 return await sock.sendMessage(extra.from, {
-                    text,
+                    text: message,
                     contextInfo: {
                         stanzaId: `AL-${Date.now()}`,
                         participant: botJid,
@@ -59,48 +71,43 @@ module.exports = {
                 });
             };
 
+            // ==============================
+            // NO ARGUMENT
+            // ==============================
+
             if (!args[0]) {
                 const settings = database.getGroupSettings(extra.from);
-                const status = settings.antilink ? '𝐎ɴ' : '𝐎ꜰꜰ';
+                const status = settings.antilink ? '𝐎𝐍 🟢' : '𝐎𝐅𝐅 🔴';
                 const action = settings.antilinkAction || 'delete';
 
                 return replyWithCard(
-                    `╭━━〔 🔗 𝐀ɴᴛɪʟɪɴᴋ 〕━━╮
-┃
-┃  ⚙️ *𝐂ᴏɴꜰɪɢᴜʀꫝᴛɪᴏɴ*
-┃
-┃  ◈ 𝐒ᴛꫝᴛᴜs : *${status}*
-┃  ◈ 𝐀ᴄᴛɪᴏɴ : *${action}*
-┃
-┃  🛡️ Protects the group from
-┃     unwanted links.
-┃
-┣━━━━━━━━━━━━━━━━━━━━
-┃  📖 *𝐔sꫝɢᴇ*
-┃
-┃  ➤ .antilink on
-┃  ➤ .antilink off
-┃  ➤ .antilink set delete
-┃  ➤ .antilink set kick
-┃  ➤ .antilink get
-┃
-╰━━━━━━━━━━━━━━━━━━━━╯`
+                    `⎯꯭𝆭̽⚙️᭡᪳𓆪𝐂ᴏɴꜰɪɢᴜʀꫝᴛɪᴏɴ𝆺𝅥𝆬⎯꯭𝆭̽🤍\n\n` +
+                    `⎯꯭𝆭̽💚᭡᪳𓆪𝐒ᴛꫝᴛᴜs : *${status}*𝆺𝅥𝆬⎯꯭𝆭̽🤍\n` +
+                    `⎯꯭𝆭̽⚡᭡᪳𓆪𝐀ᴄᴛɪᴏɴ : *${action.toUpperCase()}*𝆺𝅥𝆬⎯꯭𝆭̽🤍\n\n` +
+
+                    `⎯꯭𝆭̽🛡️᭡᪳𓆪𝐏ʀᴏᴛᴇᴄᴛɪᴏɴ𝆺𝅥𝆬⎯꯭𝆭̽🤍\n` +
+                    `⎯꯭𝆭̽🔗᭡᪳𓆪Protects the group from unwanted links.𝆺𝅥𝆬⎯꯭𝆭̽\n\n` +
+
+                    `⎯꯭𝆭̽📖᭡᪳𓆪𝐂ᴏᴍᴍꫝɴᴅ 𝐌ᴇɴᴜ𝆺𝅥𝆬⎯꯭𝆭̽🤍\n` +
+                    `⎯꯭𝆭̽🟢᭡᪳𓆪.antilink on𝆺𝅥𝆬\n` +
+                    `⎯꯭𝆭̽🔴᭡᪳𓆪.antilink off𝆺𝅥𝆬\n` +
+                    `⎯꯭𝆭̽🗑️᭡᪳𓆪.antilink set delete𝆺𝅥𝆬\n` +
+                    `⎯꯭𝆭̽🚫᭡᪳𓆪.antilink set kick𝆺𝅥𝆬\n` +
+                    `⎯꯭𝆭̽📋᭡᪳𓆪.antilink get𝆺𝅥𝆬⎯꯭𝆭̽🤍`
                 );
             }
 
             const opt = args[0].toLowerCase();
 
+            // ==============================
             // ON
+            // ==============================
+
             if (opt === 'on') {
                 if (database.getGroupSettings(extra.from).antilink) {
                     return replyWithCard(
-                        `╭━━〔 🔗 𝐀ɴᴛɪʟɪɴᴋ 〕━━╮
-┃
-┃  ⚠️ *𝐀ʟʀᴇꫝᴅʏ 𝐄ɴꫝʙʟᴇᴅ*
-┃
-┃  Antilink protection is already ON.
-┃
-╰━━━━━━━━━━━━━━━━━━━━╯`
+                        `⎯꯭𝆭̽⚠️᭡᪳𓆪𝐀ʟʀᴇꫝᴅʏ 𝐄ɴꫝʙʟᴇᴅ!𝆺𝅥𝆬⎯꯭𝆭̽\n\n` +
+                        `⎯꯭𝆭̽💚᭡᪳𓆪Antilink protection is already ON.𝆺𝅥𝆬⎯꯭𝆭̽🤍`
                     );
                 }
 
@@ -109,47 +116,39 @@ module.exports = {
                 });
 
                 return replyWithCard(
-                    `╭━━〔 🔗 𝐀ɴᴛɪʟɪɴᴋ 〕━━╮
-┃
-┃  ✅ *𝐒ᴜᴄᴄᴇssꜰᴜʟʟʏ 𝐄ɴꫝʙʟᴇᴅ*
-┃
-┃  Antilink protection has been
-┃  turned ON successfully.
-┃
-╰━━━━━━━━━━━━━━━━━━━━╯`
+                    `⎯꯭𝆭̽🎉᭡᪳𓆪 𝐏ʀᴏᴛᴇᴄᴛɪᴏɴ 𝐄ɴꫝʙʟᴇᴅ!𝆺𝅥𝆬⎯꯭𝆭̽\n` +
+                    `⎯꯭𝆭̽💚᭡᪳𓆪𝐒ᴛꫝᴛᴜs : *𝐎𝐍*𝆺𝅥𝆬⎯꯭𝆭̽🤍\n` +
+                    `⎯꯭𝆭̽🔗᭡᪳𓆪Antilink protection has been turned ON successfully.𝆺𝅥𝆬⎯꯭𝆭̽`
                 );
             }
 
+            // ==============================
             // OFF
+            // ==============================
+
             if (opt === 'off') {
                 database.updateGroupSettings(extra.from, {
                     antilink: false
                 });
 
                 return replyWithCard(
-                    `╭━━〔 🔗 𝐀ɴᴛɪʟɪɴᴋ 〕━━╮
-┃
-┃  🔴 *𝐒ᴜᴄᴄᴇssꜰᴜʟʟʏ 𝐃ɪsꫝʙʟᴇᴅ*
-┃
-┃  Antilink protection has been
-┃  turned OFF successfully.
-┃
-╰━━━━━━━━━━━━━━━━━━━━╯`
+                    `⎯꯭𝆭̽⚠️᭡᪳𓆪𝐏ʀᴏᴛᴇᴄᴛɪᴏɴ 𝐃ɪsꫝʙʟᴇᴅ!𝆺𝅥𝆬⎯꯭𝆭̽\n` +
+                    `⎯꯭𝆭̽❤️‍🩹᭡᪳𓆪𝐒ᴛꫝᴛᴜs : *𝐎𝐅𝐅*𝆺𝅥𝆬⎯꯭𝆭̽🤍\n` +
+                    `⎯꯭𝆭̽🔓᭡᪳𓆪Antilink protection has been turned OFF successfully.𝆺𝅥𝆬⎯꯭𝆭̽`
                 );
             }
 
+            // ==============================
             // SET ACTION
+            // ==============================
+
             if (opt === 'set') {
                 if (args.length < 2) {
                     return replyWithCard(
-                        `╭━━〔 ⚙️ 𝐒ᴇᴛ 𝐀ᴄᴛɪᴏɴ 〕━━╮
-┃
-┃  📌 *𝐏ʟᴇꫝsᴇ 𝐒ᴘᴇᴄɪꜰʏ 𝐀ɴ 𝐀ᴄᴛɪᴏɴ*
-┃
-┃  ➤ .antilink set delete
-┃  ➤ .antilink set kick
-┃
-╰━━━━━━━━━━━━━━━━━━━━╯`
+                        `⎯꯭𝆭̽⚙️᭡᪳𓆪𝐒ᴇᴛ 𝐀ᴄᴛɪᴏɴ𝆺𝅥𝆬⎯꯭𝆭̽🤍\n\n` +
+                        `⎯꯭𝆭̽📌᭡᪳𓆪𝐏ʟᴇꫝsᴇ 𝐒ᴘᴇᴄɪꜰʏ 𝐀ɴ 𝐀ᴄᴛɪᴏɴ𝆺𝅥𝆬⎯꯭𝆭̽\n` +
+                        `⎯꯭𝆭̽🗑️᭡᪳𓆪.antilink set delete𝆺𝅥𝆬\n` +
+                        `⎯꯭𝆭̽🚫᭡᪳𓆪.antilink set kick𝆺𝅥𝆬⎯꯭𝆭̽🤍`
                     );
                 }
 
@@ -157,61 +156,59 @@ module.exports = {
 
                 if (!['delete', 'kick'].includes(setAction)) {
                     return replyWithCard(
-                        `╭━━〔 ⚠️ 𝐈ɴᴠꫝʟɪᴅ 𝐀ᴄᴛɪᴏɴ 〕━━╮
-┃
-┃  Choose a valid action:
-┃
-┃  ➤ delete
-┃  ➤ kick
-┃
-╰━━━━━━━━━━━━━━━━━━━━╯`
+                        `⎯꯭𝆭̽⚠️᭡᪳𓆪𝐈ɴᴠꫝʟɪᴅ 𝐀ᴄᴛɪᴏɴ!𝆺𝅥𝆬⎯꯭𝆭̽\n\n` +
+                        `⎯꯭𝆭̽💡᭡᪳𓆪Choose a valid action:𝆺𝅥𝆬⎯꯭𝆭̽🤍\n` +
+                        `⎯꯭𝆭̽🗑️᭡᪳𓆪delete𝆺𝅥𝆬\n` +
+                        `⎯꯭𝆭̽🚫᭡᪳𓆪kick𝆺𝅥𝆬⎯꯭𝆭̽🤍`
                     );
                 }
 
                 database.updateGroupSettings(extra.from, {
                     antilinkAction: setAction,
-                    antilink: true // Auto-enable when setting action
+                    antilink: true
                 });
 
                 return replyWithCard(
-                    `╭━━〔 ⚙️ 𝐀ᴄᴛɪᴏɴ 𝐔ᴘᴅꫝᴛᴇᴅ 〕━━╮
-┃
-┃  ✅ *𝐒ᴜᴄᴄᴇssꜰᴜʟʟʏ 𝐒ᴇᴛ*
-┃
-┃  ◈ 𝐀ᴄᴛɪᴏɴ : *${setAction}*
-┃  ◈ 𝐒ᴛꫝᴛᴜs : *𝐎ɴ*
-┃
-╰━━━━━━━━━━━━━━━━━━━━╯`
+                    `⎯꯭𝆭̽✅᭡᪳𓆪𝐀ᴄᴛɪᴏɴ 𝐔ᴘᴅꫝᴛᴇᴅ!𝆺𝅥𝆬⎯꯭𝆭̽\n` +
+                    `⎯꯭𝆭̽🎯᭡᪳𓆪𝐀ᴄᴛɪᴏɴ : *${setAction.toUpperCase()}*𝆺𝅥𝆬⎯꯭𝆭̽🤍\n` +
+                    `⎯꯭𝆭̽💚᭡᪳𓆪𝐒ᴛꫝᴛᴜs : *𝐎𝐍*𝆺𝅥𝆬⎯꯭𝆭̽🤍\n\n` +
+                    `⎯꯭𝆭̽✨᭡᪳𓆪𝐒ᴜᴄᴄᴇssꜰᴜʟʟʏ 𝐒ᴇᴛ!𝆺𝅥𝆬⎯꯭𝆭̽`
                 );
             }
 
+            // ==============================
             // GET CONFIG
+            // ==============================
+
             if (opt === 'get') {
                 const settings = database.getGroupSettings(extra.from);
-                const status = settings.antilink ? 'ON' : 'OFF';
+                const status = settings.antilink ? '𝐎𝐍 🟢' : '𝐎𝐅𝐅 🔴';
                 const action = settings.antilinkAction || 'delete';
 
                 return replyWithCard(
-                    `╭━━〔 🔗 𝐀ɴᴛɪʟɪɴᴋ 𝐂ᴏɴꜰɪɢ 〕━━╮
-┃
-┃  ◈ 𝐒ᴛꫝᴛᴜs : *${status}*
-┃  ◈ 𝐀ᴄᴛɪᴏɴ : *${action}*
-┃
-╰━━━━━━━━━━━━━━━━━━━━╯`
+                    `⎯꯭𝆭̽📋᭡᪳𓆪𝐀ɴᴛɪʟɪɴᴋ 𝐂ᴏɴꜰɪɢ𝆺𝅥𝆬⎯꯭𝆭̽🤍\n\n` +
+                    `⎯꯭𝆭̽💚᭡᪳𓆪𝐒ᴛꫝᴛᴜs : *${status}*𝆺𝅥𝆬⎯꯭𝆭̽🤍\n` +
+                    `⎯꯭𝆭̽⚡᭡᪳𓆪𝐀ᴄᴛɪᴏɴ : *${action.toUpperCase()}*𝆺𝅥𝆬⎯꯭𝆭̽🤍`
                 );
             }
 
-            // Invalid Command
+            // ==============================
+            // INVALID COMMAND
+            // ==============================
+
             return replyWithCard(
-                `╭━━〔 ⚠️ 𝐈ɴᴠꫝʟɪᴅ 𝐂ᴏᴍᴍꫝɴᴅ 〕━━╮
-┃
-┃  Use .antilink for usage.
-┃
-╰━━━━━━━━━━━━━━━━━━━━╯`
+                `⎯꯭𝆭̽⚠️᭡᪳𓆪𝐈ɴᴠꫝʟɪᴅ 𝐂ᴏᴍᴍꫝɴᴅ!𝆺𝅥𝆬⎯꯭𝆭̽\n\n` +
+                `⎯꯭𝆭̽📌᭡᪳𓆪Use .antilink for usage.𝆺𝅥𝆬⎯꯭𝆭̽🤍`
             );
 
         } catch (error) {
-            await extra.reply(`❌ Error: ${error.message}`);
+            console.error('Antilink Error:', error);
+
+            await extra.reply(
+                `⎯꯭𝆭̽🌀᭡᪳𓆪𝐀ɴᴛɪʟɪɴᴋ𝆺𝅥𝆬⎯꯭𝆭̽🤍\n\n` +
+                `⎯꯭𝆭̽❌᭡᪳𓆪𝐄ʀʀᴏʀ : ${error.message}𝆺𝅥𝆬⎯꯭𝆭̽\n\n` +
+                `⎯꯭𝆭̽🫀᭡᪳𝐗-𝐒ʜꫝʜɪɴ 𝐑ꫝɴꫝ 𝆺𝅥𝆬⎯꯭𝆭̽💗`
+            );
         }
     }
 };
