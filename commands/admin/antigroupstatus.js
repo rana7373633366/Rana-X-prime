@@ -1,5 +1,7 @@
+
 /**
  * Antigroupstatus - Block group status posts in the group
+ * Contact Card + Full Stylish Replies
  */
 
 const database = require('../../database');
@@ -17,7 +19,10 @@ module.exports = {
 
     async execute(sock, msg, args, extra) {
         try {
-            // Bot Contact Card
+            // ==============================
+            // BOT CONTACT CARD
+            // ==============================
+
             const botNumber = sock.user.id.split(':')[0].split('@')[0];
             const botJid = `${botNumber}@s.whatsapp.net`;
 
@@ -42,15 +47,23 @@ module.exports = {
                 message: {
                     contactMessage: {
                         displayName: contactName,
-                        vcard: vcard
+                        vcard
                     }
                 }
             };
 
-            // Reply With Contact Card
+            // ==============================
+            // COMMON STYLED REPLY
+            // ==============================
+
             const replyWithCard = async (text) => {
-                return await sock.sendMessage(extra.from, {
-                    text,
+                const message =
+                    `⎯꯭𝆭̽🌀᭡᪳𓆪𝐀ɴᴛɪɢʀᴏᴜᴘsᴛᴀᴛᴜs𝆺𝅥𝆬⎯꯭𝆭̽🤍\n\n` +
+                    `${text}\n\n` +
+                    `⎯꯭𝆭̽🫀᭡᪳𝐗-𝐒ʜꫝʜɪɴ 𝐑ꫝɴꫝ 𝆺𝅥𝆬⎯꯭𝆭̽💗`;
+
+                return sock.sendMessage(extra.from, {
+                    text: message,
                     contextInfo: {
                         stanzaId: `AGS-${Date.now()}`,
                         participant: botJid,
@@ -60,7 +73,10 @@ module.exports = {
                 });
             };
 
-            // Delete Group Status
+            // ==============================
+            // DELETE GROUP STATUS
+            // ==============================
+
             const ctx = msg.message?.extendedTextMessage?.contextInfo;
 
             if (!args[0] && ctx?.stanzaId && ctx?.participant) {
@@ -86,69 +102,59 @@ module.exports = {
 
                 return replyWithCard(
                     deleted
-                        ? `╭━━〔 🛡️ 𝐀ɴᴛɪ 𝐆ʀᴏᴜᴘ 𝐒ᴛꫝᴛᴜs 〕━━╮
-┃
-┃  ✅ *𝐒ᴛꫝᴛᴜs 𝐃ᴇʟᴇᴛᴇᴅ*
-┃
-┃  Successfully deleted the group status.
-┃
-╰━━━━━━━━━━━━━━━━━━━━╯`
-                        : `╭━━〔 🛡️ 𝐀ɴᴛɪ 𝐆ʀᴏᴜᴘ 𝐒ᴛꫝᴛᴜs 〕━━╮
-┃
-┃  ❌ *𝐃ᴇʟᴇᴛɪᴏɴ 𝐅ꫝɪʟᴇᴅ*
-┃
-┃  Couldn't delete the status.
-┃
-╰━━━━━━━━━━━━━━━━━━━━╯`
+                        ? (
+                            `⎯꯭𝆭̽✅᭡᪳𓆪𝐒ᴛꫝᴛᴜs 𝐃ᴇʟᴇᴛᴇᴅ!𝆺𝅥𝆬⎯꯭𝆭̽\n\n` +
+                            `⎯꯭𝆭̽🛡️᭡᪳𓆪Successfully deleted the group status.𝆺𝅥𝆬⎯꯭𝆭̽`
+                        )
+                        : (
+                            `⎯꯭𝆭̽❌᭡᪳𓆪𝐃ᴇʟᴇᴛɪᴏɴ 𝐅ꫝɪʟᴇᴅ!𝆺𝅥𝆬⎯꯭𝆭̽\n\n` +
+                            `⎯꯭𝆭̽⚠️᭡᪳𓆪Couldn't delete the status.𝆺𝅥𝆬⎯꯭𝆭̽`
+                        )
                 );
             }
 
-            // Show Settings
+            // ==============================
+            // SHOW SETTINGS
+            // ==============================
+
             if (!args[0]) {
                 const settings = database.getGroupSettings(extra.from);
-                const status = settings.antigroupstatus ? '𝐎ɴ' : '𝐎ꜰꜰ';
+                const status = settings.antigroupstatus ? '𝐎ɴ 🟢' : '𝐎ꜰꜰ 🔴';
                 const action = settings.antigroupstatusAction || 'delete';
 
                 return replyWithCard(
-                    `╭━━〔 🛡️ 𝐀ɴᴛɪ 𝐆ʀᴏᴜᴘ 𝐒ᴛꫝᴛᴜs 〕━━╮
-┃
-┃  ⚙️ *𝐂ᴏɴꜰɪɢᴜʀꫝᴛɪᴏɴ*
-┃
-┃  ◈ 𝐒ᴛꫝᴛᴜs : *${status}*
-┃  ◈ 𝐀ᴄᴛɪᴏɴ : *${action}*
-┃
-┃  📌 Blocks members from posting
-┃     WhatsApp group statuses.
-┃
-┃  💡 Reply to a group status
-┃     to delete it.
-┃
-┣━━━━━━━━━━━━━━━━━━━━
-┃  📖 *𝐔sꫝɢᴇ*
-┃
-┃  ➤ .antigroupstatus on
-┃  ➤ .antigroupstatus off
-┃  ➤ .antigroupstatus set delete
-┃  ➤ .antigroupstatus set kick
-┃  ➤ .antigroupstatus get
-┃
-╰━━━━━━━━━━━━━━━━━━━━╯`
+                    `⎯꯭𝆭̽⚙️᭡᪳𓆪𝐂ᴏɴꜰɪɢᴜʀꫝᴛɪᴏɴ𝆺𝅥𝆬⎯꯭𝆭̽\n\n` +
+
+                    `⎯꯭𝆭̽🌐᭡᪳𓆪𝐒ᴛꫝᴛᴜs : *${status}*𝆺𝅥𝆬⎯꯭𝆭̽\n` +
+                    `⎯꯭𝆭̽⚡᭡᪳𓆪𝐀ᴄᴛɪᴏɴ : *${action}*𝆺𝅥𝆬⎯꯭𝆭̽\n\n` +
+
+                    `⎯꯭𝆭̽🛡️᭡᪳𓆪𝐏ʀᴏᴛᴇᴄᴛɪᴏɴ𝆺𝅥𝆬⎯꯭𝆭̽\n` +
+                    `⎯꯭𝆭̽💎᭡᪳𓆪Blocks members from posting𝆺𝅥𝆬⎯꯭𝆭̽\n` +
+                    `⎯꯭𝆭̽📌᭡᪳𓆪WhatsApp group statuses.𝆺𝅥𝆬⎯꯭𝆭̽\n\n` +
+
+                    `⎯꯭𝆭̽💡᭡᪳𓆪Reply to a group status𝆺𝅥𝆬⎯꯭𝆭̽\n` +
+                    `⎯꯭𝆭̽🗑️᭡᪳𓆪To delete it.𝆺𝅥𝆬⎯꯭𝆭̽\n\n` +
+
+                    `⎯꯭𝆭̽📖᭡᪳𓆪𝐂ᴏᴍᴍꫝɴᴅ 𝐌ᴇɴᴜ𝆺𝅥𝆬⎯꯭𝆭̽\n` +
+                    `⎯꯭𝆭̽🟢᭡᪳𓆪.antigroupstatus on\n` +
+                    `⎯꯭𝆭̽🔴᭡᪳𓆪.antigroupstatus off\n` +
+                    `⎯꯭𝆭̽⚙️᭡᪳𓆪.antigroupstatus set delete\n` +
+                    `⎯꯭𝆭̽🚫᭡᪳𓆪.antigroupstatus set kick\n` +
+                    `⎯꯭𝆭̽📋᭡᪳𓆪.antigroupstatus get`
                 );
             }
 
             const opt = args[0].toLowerCase();
 
+            // ==============================
             // ON
+            // ==============================
+
             if (opt === 'on') {
                 if (database.getGroupSettings(extra.from).antigroupstatus) {
                     return replyWithCard(
-                        `╭━━〔 🛡️ 𝐀ɴᴛɪ 𝐆ʀᴏᴜᴘ 𝐒ᴛꫝᴛᴜs 〕━━╮
-┃
-┃  ⚠️ *𝐀ʟʀᴇꫝᴅʏ 𝐄ɴꫝʙʟᴇᴅ*
-┃
-┃  Anti Group Status is already ON.
-┃
-╰━━━━━━━━━━━━━━━━━━━━╯`
+                        `⎯꯭𝆭̽⚠️᭡᪳𓆪𝐀ʟʀᴇꫝᴅʏ 𝐄ɴꫝʙʟᴇᴅ!𝆺𝅥𝆬⎯꯭𝆭̽\n\n` +
+                        `⎯꯭𝆭̽💚᭡᪳𓆪Anti Group Status is already ON.𝆺𝅥𝆬⎯꯭𝆭̽`
                     );
                 }
 
@@ -157,47 +163,41 @@ module.exports = {
                 });
 
                 return replyWithCard(
-                    `╭━━〔 🛡️ 𝐀ɴᴛɪ 𝐆ʀᴏᴜᴘ 𝐒ᴛꫝᴛᴜs 〕━━╮
-┃
-┃  ✅ *𝐒ᴜᴄᴄᴇssꜰᴜʟʟʏ 𝐄ɴꫝʙʟᴇᴅ*
-┃
-┃  Anti Group Status has been
-┃  turned ON successfully.
-┃
-╰━━━━━━━━━━━━━━━━━━━━╯`
+                    `⎯꯭𝆭̽🎉᭡᪳𓆪𝐒ᴜᴄᴄᴇssғᴜʟʟʏ 𝐄ɴꫝʙʟᴇᴅ!𝆺𝅥𝆬⎯꯭𝆭̽\n\n` +
+                    `⎯꯭𝆭̽💚᭡᪳𓆪𝐒ᴛꫝᴛᴜs : *𝐎ɴ*𝆺𝅥𝆬⎯꯭𝆭̽\n` +
+                    `⎯꯭𝆭̽🛡️᭡᪳𓆪Anti Group Status has been𝆺𝅥𝆬⎯꯭𝆭̽\n` +
+                    `⎯꯭𝆭̽✨᭡᪳𓆪turned ON successfully.𝆺𝅥𝆬⎯꯭𝆭̽`
                 );
             }
 
+            // ==============================
             // OFF
+            // ==============================
+
             if (opt === 'off') {
                 database.updateGroupSettings(extra.from, {
                     antigroupstatus: false
                 });
 
                 return replyWithCard(
-                    `╭━━〔 🛡️ 𝐀ɴᴛɪ 𝐆ʀᴏᴜᴘ 𝐒ᴛꫝᴛᴜs 〕━━╮
-┃
-┃  🔴 *𝐒ᴜᴄᴄᴇssꜰᴜʟʟʏ 𝐃ɪsꫝʙʟᴇᴅ*
-┃
-┃  Anti Group Status has been
-┃  turned OFF successfully.
-┃
-╰━━━━━━━━━━━━━━━━━━━━╯`
+                    `⎯꯭𝆭̽🔴᭡᪳𓆪𝐒ᴜᴄᴄᴇssғᴜʟʟʏ 𝐃ɪsꫝʙʟᴇᴅ!𝆺𝅥𝆬⎯꯭𝆭̽\n\n` +
+                    `⎯꯭𝆭̽❤️‍🩹᭡᪳𓆪𝐒ᴛꫝᴛᴜs : *𝐎ꜰꜰ*𝆺𝅥𝆬⎯꯭𝆭̽\n` +
+                    `⎯꯭𝆭̽🔓᭡᪳𓆪Anti Group Status has been𝆺𝅥𝆬⎯꯭𝆭̽\n` +
+                    `⎯꯭𝆭̽🌙᭡᪳𓆪turned OFF successfully.𝆺𝅥𝆬⎯꯭𝆭̽`
                 );
             }
 
+            // ==============================
             // SET ACTION
+            // ==============================
+
             if (opt === 'set') {
                 if (args.length < 2) {
                     return replyWithCard(
-                        `╭━━〔 ⚙️ 𝐒ᴇᴛ 𝐀ᴄᴛɪᴏɴ 〕━━╮
-┃
-┃  📌 *𝐔sꫝɢᴇ*
-┃
-┃  .antigroupstatus set delete
-┃  .antigroupstatus set kick
-┃
-╰━━━━━━━━━━━━━━━━━━━━╯`
+                        `⎯꯭𝆭̽⚙️᭡᪳𓆪𝐒ᴇᴛ 𝐀ᴄᴛɪᴏɴ 𝐔sꫝɢᴇ𝆺𝅥𝆬⎯꯭𝆭̽\n\n` +
+                        `⎯꯭𝆭̽📌᭡᪳𓆪𝐔sꫝɢᴇ :\n` +
+                        `⎯꯭𝆭̽🗑️᭡᪳𓆪.antigroupstatus set delete\n` +
+                        `⎯꯭𝆭̽🚫᭡᪳𓆪.antigroupstatus set kick`
                     );
                 }
 
@@ -205,14 +205,10 @@ module.exports = {
 
                 if (!['delete', 'kick'].includes(setAction)) {
                     return replyWithCard(
-                        `╭━━〔 ⚠️ 𝐈ɴᴠꫝʟɪᴅ 𝐀ᴄᴛɪᴏɴ 〕━━╮
-┃
-┃  Choose a valid action:
-┃
-┃  ➤ delete
-┃  ➤ kick
-┃
-╰━━━━━━━━━━━━━━━━━━━━╯`
+                        `⎯꯭𝆭̽⚠️᭡᪳𓆪𝐈ɴᴠꫝʟɪᴅ 𝐀ᴄᴛɪᴏɴ!𝆺𝅥𝆬⎯꯭𝆭̽\n\n` +
+                        `⎯꯭𝆭̽💡᭡᪳𓆪Choose a valid action:\n` +
+                        `⎯꯭𝆭̽🗑️᭡᪳𓆪delete\n` +
+                        `⎯꯭𝆭̽🚫᭡᪳𓆪kick`
                     );
                 }
 
@@ -222,45 +218,47 @@ module.exports = {
                 });
 
                 return replyWithCard(
-                    `╭━━〔 ⚙️ 𝐀ᴄᴛɪᴏɴ 𝐔ᴘᴅꫝᴛᴇᴅ 〕━━╮
-┃
-┃  ✅ *𝐒ᴜᴄᴄᴇssꜰᴜʟʟʏ 𝐒ᴇᴛ*
-┃
-┃  ◈ 𝐀ᴄᴛɪᴏɴ : *${setAction}*
-┃  ◈ 𝐒ᴛꫝᴛᴜs : *𝐎ɴ*
-┃
-╰━━━━━━━━━━━━━━━━━━━━╯`
+                    `⎯꯭𝆭̽✅᭡᪳𓆪𝐀ᴄᴛɪᴏɴ 𝐔ᴘᴅꫝᴛᴇᴅ!𝆺𝅥𝆬⎯꯭𝆭̽\n\n` +
+                    `⎯꯭𝆭̽🎯᭡᪳𓆪𝐀ᴄᴛɪᴏɴ : *${setAction}*𝆺𝅥𝆬⎯꯭𝆭̽\n` +
+                    `⎯꯭𝆭̽💚᭡᪳𓆪𝐒ᴛꫝᴛᴜs : *𝐎ɴ*𝆺𝅥𝆬⎯꯭𝆭̽\n\n` +
+                    `⎯꯭𝆭̽✨᭡᪳𓆪𝐒ᴜᴄᴄᴇssғᴜʟʟʏ 𝐒ᴇᴛ! 💗`
                 );
             }
 
+            // ==============================
             // GET CONFIG
+            // ==============================
+
             if (opt === 'get') {
                 const settings = database.getGroupSettings(extra.from);
-                const status = settings.antigroupstatus ? 'ON' : 'OFF';
+                const status = settings.antigroupstatus ? '𝐎𝐍 🟢' : '𝐎𝐅𝐅 🔴';
                 const action = settings.antigroupstatusAction || 'delete';
 
                 return replyWithCard(
-                    `╭━━〔 ⚙️ 𝐆ʀᴏᴜᴘ 𝐒ᴛꫝᴛᴜs 𝐂ᴏɴꜰɪɢ 〕━━╮
-┃
-┃  ◈ 𝐒ᴛꫝᴛᴜs : *${status}*
-┃  ◈ 𝐀ᴄᴛɪᴏɴ : *${action}*
-┃
-╰━━━━━━━━━━━━━━━━━━━━╯`
+                    `⎯꯭𝆭̽📋᭡᪳𓆪𝐆ʀᴏᴜᴘ 𝐒ᴛꫝᴛᴜs 𝐂ᴏɴғɪɢ𝆺𝅥𝆬⎯꯭𝆭̽\n\n` +
+                    `⎯꯭𝆭̽🌐᭡᪳𓆪𝐒ᴛꫝᴛᴜs : *${status}*𝆺𝅥𝆬⎯꯭𝆭̽\n` +
+                    `⎯꯭𝆭̽⚡᭡᪳𓆪𝐀ᴄᴛɪᴏɴ : *${action}*𝆺𝅥𝆬⎯꯭𝆭̽`
                 );
             }
 
-            // Invalid Command
+            // ==============================
+            // INVALID COMMAND
+            // ==============================
+
             return replyWithCard(
-                `╭━━〔 ⚠️ 𝐈ɴᴠꫝʟɪᴅ 𝐂ᴏᴍᴍꫝɴᴅ 〕━━╮
-┃
-┃  Use .antigroupstatus
-┃  to view available commands.
-┃
-╰━━━━━━━━━━━━━━━━━━━━╯`
+                `⎯꯭𝆭̽⚠️᭡᪳𓆪𝐈ɴᴠꫝʟɪᴅ 𝐂ᴏᴍᴍꫝɴᴅ!𝆺𝅥𝆬⎯꯭𝆭̽\n\n` +
+                `⎯꯭𝆭̽📌᭡᪳𓆪Use .antigroupstatus\n` +
+                `⎯꯭𝆭̽💡᭡᪳𓆪To view available commands.`
             );
 
         } catch (error) {
-            await extra.reply(`❌ Error: ${error.message}`);
+            console.error('antigroupstatus.js error:', error);
+
+            await extra.reply(
+                `⎯꯭𝆭̽❌᭡᪳𓆪𝐀ɴᴛɪɢʀᴏᴜᴘsᴛᴀᴛᴜs 𝐄ʀʀᴏʀ!𝆺𝅥𝆬⎯꯭𝆭̽\n\n` +
+                `⎯꯭𝆭̽⚠️᭡᪳𓆪${error.message}\n\n` +
+                `⎯꯭𝆭̽🫀᭡᪳𝐗-𝐒ʜꫝʜɪɴ 𝐑ꫝɴꫝ 𝆺𝅥𝆬⎯꯭𝆭̽💗`
+            );
         }
     }
 };
